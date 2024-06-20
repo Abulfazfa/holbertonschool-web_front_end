@@ -205,9 +205,6 @@
   
   /* Navbar
       ============================= */
-  nav{
-    display: flex;
-  }
 
   .navbar-menu {
     float: right;
@@ -218,17 +215,20 @@
     padding: 0;
     list-style: none;
     text-align: center;
+    display:flex;  
   }
   
-  .nav-item + .nav-item {
+  .nav .nav-item {
     font-family: var(--nav-item-font-family);
     font-weight: var(--nav-item-font-weight);
     font-size: var(--nav-item-font-size);
     letter-spacing: var(--nav-item-letter-spacing);
-    
-    margin: var(--nav-item-margin);
   }
   
+
+  .nav .nav-item + .nav-item {
+    margin: var(--nav-item-margin); 
+  }  
   .nav .nav-link {
     display: block;
     padding: 0.5rem 0;
