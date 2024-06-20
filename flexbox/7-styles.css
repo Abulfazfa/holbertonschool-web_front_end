@@ -273,7 +273,10 @@
     top: var(--header-logo-link-top);
     left: var(--header-logo-link-left);
   }
-  
+
+  .header-container{
+    align-items: center;
+  }
   /* Footer
       ============================= */
   
