@@ -352,15 +352,17 @@ a:active {
 }
 
 @media screen and (max-width: 480px) {
-    html{
-        font-size:57%;
-    }
+	html {
+		font-size: 57%;
+	}
 }
-@media screen and (min-width: 481px) and (max-width: 767px){
-    html{
-        font-size: 60%;
-    }
+
+@media screen and (min-width: 481px) and (max-width: 767px) {
+	html {
+		font-size: 60%;
+	}
 }
+
 /* Helpers
       ============================= */
 
@@ -408,41 +410,42 @@ a:active {
 	.col-1-2 {
 		width: 100%;
 	}
+
 	.header .menu-icon {
-    cursor: pointer;
-    padding: 2.5rem;
-    position: relative;
-    user-select: none;
-	display: none;
-}
+		cursor: pointer;
+		padding: 2.5rem;
+		position: relative;
+		user-select: none;
+		display: none;
+	}
 
-.header .menu-icon .navicon{
-    background: var(--color-white);
-    display: block;
-    width: 2rem;
-    height: .2rem;
-    position: relative;
-    transition: background .2s ease-out;
-}
+	.header .menu-icon .navicon {
+		background: var(--color-white);
+		display: block;
+		width: 2rem;
+		height: .2rem;
+		position: relative;
+		transition: background .2s ease-out;
+	}
 
-.header .menu-icon .navicon::before,
-.header .menu-icon .navicon::after{
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background: var(--color-white);
-    transition: all .2s ease-out;
-}
+	.header .menu-icon .navicon::before,
+	.header .menu-icon .navicon::after {
+		content: '';
+		display: block;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		background: var(--color-white);
+		transition: all .2s ease-out;
+	}
 
-.header .menu-icon .navicon::before{
-    top: .7rem;
-}
+	.header .menu-icon .navicon::before {
+		top: .7rem;
+	}
 
-.header .menu-icon .navicon::after{
-    top: -.7rem;
-}
+	.header .menu-icon .navicon::after {
+		top: -.7rem;
+	}
 
 }
 
@@ -583,20 +586,21 @@ ul.row {
 }
 
 @media screen and (max-width: 767px) {
-    :root {
-        --footer-padding: 5rem 2rem 1rem;
-    }
+	:root {
+		--footer-padding: 5rem 2rem 1rem;
+	}
 
-    .footer .social.nav,
-    .footer .footer-nav {
-        text-align: center;
-    }
+	.footer .social.nav,
+	.footer .footer-nav {
+		text-align: center;
+	}
 
-    .footer .social.nav li+li,
-    .footer .footer-nav li+li {
-        padding-left: 2rem;
-    }
+	.footer .social.nav li+li,
+	.footer .footer-nav li+li {
+		padding-left: 2rem;
+	}
 }
+
 /*** 3. SECTION ***/
 
 /* Section (all styles)
@@ -648,19 +652,26 @@ ul.row {
 
 /* Section HERO
       ============================= */
-	
-	  @media (max-width: 767px) {
-  .section-hero {
-    margin: -0.1rem 0;
-  }
 
-  .hero-homepage {
-    background-position: 85% 0;
-  }
 
-  .section-hero .section-body {
-    padding: 2rem;
-  }
+
+.article-page .section-hero {
+	margin-top: -8.5rem;
+	padding-top: 5rem;
+}
+
+@media (max-width: 767px) {
+	.section-hero {
+		margin: -0.1rem 0;
+	}
+
+	.hero-homepage {
+		background-position: 85% 0;
+	}
+
+	.section-hero .section-body {
+		padding: 2rem;
+	}
 }
 
 .section-hero {
@@ -796,19 +807,20 @@ ul.row {
 .card-work:hover .card-title {
 	opacity: 1;
 }
+
 @media screen and (max-width:767px) {
-    .card-work .card-inner {
-        --text-color: var(--color-white);
-        position: relative;
-    }
+	.card-work .card-inner {
+		--text-color: var(--color-white);
+		position: relative;
+	}
 
-    .card-work .card-title {
-        opacity: 1;
-    }
+	.card-work .card-title {
+		opacity: 1;
+	}
 
-    .card-work .card-title>a {
-        padding: 2rem 1rem 0 1rem;
-    }
+	.card-work .card-title>a {
+		padding: 2rem 1rem 0 1rem;
+	}
 }
 
 /* Card SERVICES
@@ -1185,60 +1197,62 @@ textarea:valid:not(:placeholder-shown) {
 
 /* menu btn */
 .header .menu-btn {
-  display: none;
+	display: none;
 }
 
-.header .menu-btn:checked ~ .navbar-menu {
-  display: block;
+.header .menu-btn:checked~.navbar-menu {
+	display: block;
 }
 
-.header .menu-btn:checked ~ .navbar-menu .nav {
-  max-height: 100%;
-  overflow: inherit;
-}
-.header .menu-btn:checked ~ .menu-icon .navicon {
-  background: transparent;
+.header .menu-btn:checked~.navbar-menu .nav {
+	max-height: 100%;
+	overflow: inherit;
 }
 
-.header .menu-btn:checked ~ .menu-icon .navicon::before {
-  transform: rotate(-45deg);
+.header .menu-btn:checked~.menu-icon .navicon {
+	background: transparent;
 }
 
-.header .menu-btn:checked ~ .menu-icon .navicon::after {
-  transform: rotate(45deg);
+.header .menu-btn:checked~.menu-icon .navicon::before {
+	transform: rotate(-45deg);
 }
 
-.header .menu-btn:checked ~ .menu-icon .navicon::before,
-.header .menu-btn:checked ~ .menu-icon .navicon::after {
-  top: 0;
+.header .menu-btn:checked~.menu-icon .navicon::after {
+	transform: rotate(45deg);
 }
+
+.header .menu-btn:checked~.menu-icon .navicon::before,
+.header .menu-btn:checked~.menu-icon .navicon::after {
+	top: 0;
+}
+
 @media (max-width: 767px) {
-  :root {
-    --header-padding: 2rem 0 0;
-  }
+	:root {
+		--header-padding: 2rem 0 0;
+	}
 
-  .header {
-    background: var(--color-black);
-  }
+	.header {
+		background: var(--color-black);
+	}
 
-  .header-container {
-    flex-wrap: wrap;
-    padding: 0 1.5rem;
-  }
+	.header-container {
+		flex-wrap: wrap;
+		padding: 0 1.5rem;
+	}
 
-  .header .menu-icon {
-    display: block;
-  }
+	.header .menu-icon {
+		display: block;
+	}
 }
 
 @media (max-width: 480px) {
-  .header-logo {
-    flex-basis: 70%;
-  }
+	.header-logo {
+		flex-basis: 70%;
+	}
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
-  .header-logo {
-    flex-basis: 79%;
-  }
+	.header-logo {
+		flex-basis: 79%;
+	}
 }
