@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <title>Task 0</title>
+
+</head>
+
+<body>
+<style>
+    #pagination li {
+        display: inline;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    #pagination li.active {
+        font-weight: bold;
+    }
+
+    .loading {
+        opacity: 0.2;
+    }
+</style>
+
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="application/javascript">
+    $(document).ready(function () {
+
+        function createSearchForm() {
+            $('body').append(
+                $('<form>').append(
+                    $('<input>').attr({type: 'text'}),
+                    $('<input>').attr({type: 'submit', value: 'Search'})
+                ),
+                $('<ul>').attr('id', 'results'),
+                $('<ul>').attr('id', 'pagination')
+            );
+
+            $('form').submit(function (event) {
+                event.preventDefault();
+                var searchValue = $(this).find('input[type="text"]').val();
+                queryWikipedia(searchValue, 0);
+            });
+        }
+
+        function addNewArticle(id, title, snippet) {
+            var listItem = $('<li>').append(
+                $('<p>').append(
+                    $('<span>').text(id + ' - '),
+                    $('<b>').text(title)
+                ),
+                $('<p>').html(snippet)
+            );
+
+            $('#results').append(listItem);
+        }
+
+        function queryWikipedia(search, offset) {
+            offset = offset || 0;
+            var data = {
+                action: 'query',
+                format: 'json',
+                list: 'search',
+                srsearch: search,
+                utf8: 1,
+                origin: '*',
+                sroffset: offset
+            };
+            displayLoading(true)
+            $.ajax({
+                url: 'https://en.wikipedia.org/w/api.php',
+                data: data,
+                dataType: 'json',
+                success: function (response) {
+                    var results = response.query.search;
+
+                    $('#results').empty();
+                    results.forEach(function (result) {
+                        addNewArticle(result.pageid, result.title, result.snippet);
+                    });
+                    let totalhits = response.query.searchinfo.totalhits;
+                    console.log(response)
+                    buildPagination(totalhits, 10, offset)
+                    displayLoading(false);
+
+                },
+                error: function () {
+                    alert('Error retrieving data from Wikipedia');
+                    displayLoading(false);
+                }
+
+            });
+
+        }
+
+        function buildPagination(numberOfItems, itemsPerPage, currentOffset) {
+            $('#pagination').empty();
+            var totalPages = Math.ceil(numberOfItems / itemsPerPage);
+            console.log(totalPages)
+            for (var i = 0; i < totalPages; i++) {
+                var pageNumber = i + 1;
+                var listItem = $('<li>').text(pageNumber);
+
+                if (i * itemsPerPage === currentOffset) {
+                    listItem.addClass('active');
+                }
+
+                (function (offset) {
+                    listItem.click(function () {
+                        var searchValue = $('form').find('input[type="text"]').val();
+                        queryWikipedia(searchValue, offset);
+                    });
+                })(i * itemsPerPage);
+
+                $('#pagination').append(listItem);
+            }
+        }
+
+        function displayLoading(loading) {
+            var $ul = $('ul').first();
+            if (loading) {
+                $ul.wrap('<div class="loading"></div>');
+            } else {
+                $ul.unwrap();
+            }
+        }
+
+        function addPostRow(data) {
+            var paragraph = $('<p>').attr('id', `row-${data.id}`).append(
+                $('<span>').text('(delete) ').css('cursor', 'pointer').click(function () {
+                    deletePost(data.id);
+                }),
+                $('<span>').text(`Post created with id ${data.id}, title: ${data.title}, author: ${data.author}`)
+            );
+            $('body').append(paragraph);
+        }
+
+        function deletePost(id) {
+            $.ajax({
+                url: `http://localhost:3000/posts/${id}`,
+                method: 'DELETE',
+                success: function () {
+                    $(`#row-${id}`).remove();
+                },
+                error: function () {
+                    alert('Post was not deleted');
+                }
+            });
+        }
+
+        function listPosts() {
+            $.get('http://localhost:3000/posts')
+                .done(function (response) {
+                    response.forEach(function (post) {
+                        addPostRow(post);
+                    });
+                })
+                .fail(function () {
+                    alert('Server Error');
+                });
+        }
+
+        function buildForm() {
+            var form = $('<form>').append(
+                $('<div>').append(
+                    $('<label>').attr('for', 'author').text('Author'),
+                    $('<input>').attr({type: 'text', id: 'author'})
+                ),
+                $('<div>').append(
+                    $('<label>').attr('for', 'title').text('Title'),
+                    $('<textarea>').attr({id: 'title', rows: '3'})
+                ),
+                $('<input>').attr({type: 'submit', value: 'Submit'})
+            );
+
+            form.on('submit', sendForm);
+            $('body').append(form);
+        }
+
+        function sendForm(event) {
+            event.preventDefault();
+console.log("SALAM DOSTLAR")
+            $('<p>').text('About to send the query to the API').insertAfter('form');
+
+            var data = {
+                author: $('#author').val(),
+                title: $('#title').val()
+            };
+
+            $.ajax({
+                url: 'http://localhost:3000/posts',
+                method: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function(response) {
+                    addPostRow(response);
+                },
+                error: function() {
+                    alert('Error sending the POST query');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            listPosts();
+            buildForm();
+        });
+    });
+
+</script>
+</html>
+

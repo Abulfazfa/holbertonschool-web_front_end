@@ -18,6 +18,10 @@
     #pagination li.active {
         font-weight: bold;
     }
+
+    .loading {
+        opacity: 0.2;
+    }
 </style>
 
 
@@ -68,7 +72,7 @@
                 origin: '*',
                 sroffset: offset
             };
-
+            displayLoading(true)
             $.ajax({
                 url: 'https://en.wikipedia.org/w/api.php',
                 data: data,
@@ -83,35 +87,49 @@
                     let totalhits = response.query.searchinfo.totalhits;
                     console.log(response)
                     buildPagination(totalhits, 10, offset)
+                    displayLoading(false);
 
                 },
                 error: function () {
                     alert('Error retrieving data from Wikipedia');
+                    displayLoading(false);
                 }
+
             });
+
         }
         function buildPagination(numberOfItems, itemsPerPage, currentOffset){
-                $('#pagination').empty();
-                var totalPages = Math.ceil(numberOfItems / itemsPerPage);
-                console.log(totalPages)
-                for (var i = 0; i < totalPages; i++) {
-                    var pageNumber = i + 1;
-                    var listItem = $('<li>').text(pageNumber);
+            $('#pagination').empty();
+            var totalPages = Math.ceil(numberOfItems / itemsPerPage);
+            console.log(totalPages)
+            for (var i = 0; i < totalPages; i++) {
+                var pageNumber = i + 1;
+                var listItem = $('<li>').text(pageNumber);
 
-                    if (i * itemsPerPage === currentOffset) {
-                        listItem.addClass('active');
-                    }
-
-                    (function(offset) {
-                        listItem.click(function() {
-                            var searchValue = $('form').find('input[type="text"]').val();
-                            queryWikipedia(searchValue, offset);
-                        });
-                    })(i * itemsPerPage);
-
-                    $('#pagination').append(listItem);
+                if (i * itemsPerPage === currentOffset) {
+                    listItem.addClass('active');
                 }
+
+                (function(offset) {
+                    listItem.click(function() {
+                        var searchValue = $('form').find('input[type="text"]').val();
+                        queryWikipedia(searchValue, offset);
+                    });
+                })(i * itemsPerPage);
+
+                $('#pagination').append(listItem);
+            }
         }
+
+        function displayLoading(loading) {
+            var $ul = $('ul').first();
+            if (loading) {
+                $ul.wrap('<div class="loading"></div>');
+            } else {
+                $ul.unwrap();
+            }
+        }
+
 
         $(document).ready(function() {
             createSearchForm();
